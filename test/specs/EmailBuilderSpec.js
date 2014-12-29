@@ -1,6 +1,7 @@
 'use strict';
 
-var EmailBuilder = require('./');
+var fs = require('fs');
+var EmailBuilder = require('./index.js');
 
 /*
 ======== A Handy Little Nodeunit Reference ========
@@ -22,11 +23,11 @@ test.doesNotThrow(block, [error], [message])
 test.ifError(value)
 */
 
-exports.init_gruntplugin_sample = {
+exports.emailBuilderTest = {
   setUp: function(done) {
     // setup here if necessary
 
-    var emailBuilder = new EmailBuilder();
+    this.emailBuilder = new EmailBuilder();
 
     done();
   },
@@ -40,22 +41,6 @@ exports.init_gruntplugin_sample = {
     actual = grunt.file.read('reports/test-report');
     expected = grunt.file.read('test/expected/test-report');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
-
-    actual = grunt.file.read('reports/test-report-dom');
-    expected = grunt.file.read('test/expected/test-report-dom');
-    test.equal(actual, expected, 'Should produce a default report with DOM element for a test file');
-
-    actual = grunt.file.read('reports/test-report.json');
-    expected = grunt.file.read('test/expected/test-report.json');
-    test.equal(actual, expected, 'Should produce JSON report without DOM element for a test file');
-
-    actual = grunt.file.read('reports/test-report-dom.json');
-    expected = grunt.file.read('test/expected/test-report-dom.json');
-    test.equal(actual, expected, 'Should produce JSON report with DOM element for a test file');
-
-    actual = grunt.file.read('reports/test-report-ignore.txt');
-    expected = grunt.file.read('test/expected/test-report-ignore.txt');
-    test.equal(actual, expected, 'Should ignore certain rules');
 
     test.done();
   }
