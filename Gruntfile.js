@@ -12,21 +12,15 @@ module.exports = function(grunt) {
       all: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
     },
 
-    // Jamsine
-    jasmine: {
-      emailBuilder: {
-        src: 'index.js',
-        options: {
-          specs: 'test/specs/*Spec.js',
-          helpers: 'test/spec/*Helper.js'
-        }
-      }
+    // Unit tests
+    nodeunit: {
+      tests: ['test/*_test.js']
     }
   });
 
   // Load tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // Default task(s).
   grunt.registerTask('default', ['jshint']);

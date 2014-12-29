@@ -1,30 +1,62 @@
-describe("Calendar Stuff", function() {
-  var emailBuilder;
+'use strict';
 
-  beforeEach(function() {
-    emailBuilder = new EmailBuilder();
-  });
+var EmailBuilder = require('./');
 
-  describe('Something something', function() {
-    var today;
+/*
+======== A Handy Little Nodeunit Reference ========
+https://github.com/caolan/nodeunit
 
-    beforeEach(function() {
-      today = new Date();
-    });
+Test methods:
+test.expect(numAssertions)
+test.done()
+Test assertions:
+test.ok(value, [message])
+test.equal(actual, expected, [message])
+test.notEqual(actual, expected, [message])
+test.deepEqual(actual, expected, [message])
+test.notDeepEqual(actual, expected, [message])
+test.strictEqual(actual, expected, [message])
+test.notStrictEqual(actual, expected, [message])
+test.throws(block, [error], [message])
+test.doesNotThrow(block, [error], [message])
+test.ifError(value)
+*/
 
-    it('should be main entry', function() {
-      var expected = '<strong>10:00</strong> AM';
-      var unit = 'hours';
-      var minutesFrom = 60;
+exports.init_gruntplugin_sample = {
+  setUp: function(done) {
+    // setup here if necessary
 
-      today.setHours(10, 0, 0, 0);
-      var dateString = calendar.constructTimeEntry(today, minutesFrom, unit);
+    var emailBuilder = new EmailBuilder();
 
-      expect(dateString.date).toBe('<strong>10:00</strong> AM');
-    });
+    done();
+  },
+  default_options: function(test) {
 
+    var actual;
+    var expected;
 
-  });
+    test.expect(5);
 
+    actual = grunt.file.read('reports/test-report');
+    expected = grunt.file.read('test/expected/test-report');
+    test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
-});
+    actual = grunt.file.read('reports/test-report-dom');
+    expected = grunt.file.read('test/expected/test-report-dom');
+    test.equal(actual, expected, 'Should produce a default report with DOM element for a test file');
+
+    actual = grunt.file.read('reports/test-report.json');
+    expected = grunt.file.read('test/expected/test-report.json');
+    test.equal(actual, expected, 'Should produce JSON report without DOM element for a test file');
+
+    actual = grunt.file.read('reports/test-report-dom.json');
+    expected = grunt.file.read('test/expected/test-report-dom.json');
+    test.equal(actual, expected, 'Should produce JSON report with DOM element for a test file');
+
+    actual = grunt.file.read('reports/test-report-ignore.txt');
+    expected = grunt.file.read('test/expected/test-report-ignore.txt');
+    test.equal(actual, expected, 'Should ignore certain rules');
+
+    test.done();
+  }
+};
