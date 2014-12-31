@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     // Js Hint
     jshint: {
       options: {
+        jshintrc: true,
         reporter: require('jshint-stylish')
       },
       all: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
@@ -24,6 +25,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('test',    ['jshint', 'jasmine']);
+  grunt.registerTask('test',    ['jshint', 'nodeunit']);
 
 };

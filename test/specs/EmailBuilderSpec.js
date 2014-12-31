@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var grunt = require('grunt');
 var EmailBuilder = require('./index.js');
 
 /*
@@ -26,7 +27,6 @@ test.ifError(value)
 exports.emailBuilderTest = {
   setUp: function(done) {
     // setup here if necessary
-
     this.emailBuilder = new EmailBuilder();
 
     done();
