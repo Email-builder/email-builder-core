@@ -4,7 +4,7 @@
   "description": "Email builder core",
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
