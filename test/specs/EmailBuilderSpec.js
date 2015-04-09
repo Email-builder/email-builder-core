@@ -1,47 +1,104 @@
 'use strict';
 
 var fs = require('fs');
-var grunt = require('grunt');
-var EmailBuilder = require('./index.js');
+var path = require('path');
+var chai = require('chai');
+var expect = chai.expect;
+var EmailBuilder = require('../../lib/emailBuilder.js');
 
-/*
-======== A Handy Little Nodeunit Reference ========
-https://github.com/caolan/nodeunit
+function getSrc(file){
+  file = file || '';
+  return path.join(process.cwd(), 'test', 'fixtures', file);
+}
 
-Test methods:
-test.expect(numAssertions)
-test.done()
-Test assertions:
-test.ok(value, [message])
-test.equal(actual, expected, [message])
-test.notEqual(actual, expected, [message])
-test.deepEqual(actual, expected, [message])
-test.notDeepEqual(actual, expected, [message])
-test.strictEqual(actual, expected, [message])
-test.notStrictEqual(actual, expected, [message])
-test.throws(block, [error], [message])
-test.doesNotThrow(block, [error], [message])
-test.ifError(value)
-*/
+function read(file){
+  return fs.readFileSync(getSrc(file), 'utf8');
+}
 
-exports.emailBuilderTest = {
-  setUp: function(done) {
-    // setup here if necessary
-    this.emailBuilder = new EmailBuilder();
+describe("EmailBuilder", function() {
+  
+  var emailBuilder;
+  var src;
 
-    done();
-  },
-  default_options: function(test) {
+  beforeEach(function(){
+    emailBuilder = new EmailBuilder({});
+  });
 
-    var actual;
-    var expected;
+  // emailBuilder.inlineCss
+  describe("#inlineCss", function() {
+    
+    describe("conditional styles", function() {
+      
+      it('should be embedded', function(done){
 
-    test.expect(5);
+        emailBuilder.inlineCss(getSrc('input/conditional_styles.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/conditional_styles.html'));
+            done();
+          }).catch(function(err){ done(err); });
 
-    actual = grunt.file.read('reports/test-report');
-    expected = grunt.file.read('test/expected/test-report');
-    test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
+      });
+    });
 
-    test.done();
-  }
-};
+    describe("embedded styles", function() {
+      
+      it("should be inlined", function(done) {
+        emailBuilder.inlineCss(getSrc('input/embedded_styles_inlined.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/embedded_styles_inlined.html'));
+            done();
+          }).catch(function(err){ done(err); });
+      });
+
+      it("should NOT be inlined if `data-embed` attribute set", function(done) {
+        emailBuilder.inlineCss(getSrc('input/embedded_styles_ignored.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/embedded_styles_ignored.html'));
+            done();
+          }).catch(function(err){ done(err); });
+      });
+
+    });
+
+    describe("external styles", function() {
+      
+      it('should be inlined', function(done){
+        emailBuilder.inlineCss(getSrc('input/external_styles_inlined.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/external_styles_inlined.html'));
+            done();
+          }).catch(function(err){ done(err); });
+      });
+
+      it("should be embedded if `data-embed` attribute set", function(done) {
+        emailBuilder.inlineCss(getSrc('input/embedded_styles_ignored.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/embedded_styles_ignored.html'));
+            done();
+          }).catch(function(err){ done(err); });
+      });
+
+      it("should NOT be inlined or embedded if `data-embed-ignore` attribute set", function(done) {
+        emailBuilder.inlineCss(getSrc('input/embedded_styles_ignored.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/embedded_styles_ignored.html'));
+            done();
+          }).catch(function(err){ done(err); });
+      });
+
+    });
+    
+    describe("special characters", function() {
+      it("should be encoded if `options.encodeSpecialChars` is true", function(done) {
+        emailBuilder.options.encodeSpecialChars = true;
+        emailBuilder.inlineCss(getSrc('input/encoded_special_characters.html'))
+          .then(function(html){
+            expect(html).to.eql(read('output/encoded_special_characters.html'));
+            done();
+          }).catch(function(err){ done(err); })
+      });
+    });
+
+  });
+
+});
