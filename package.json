@@ -21,12 +21,14 @@
     "chalk": "^0.5.1",
     "cheerio": "^0.18.0",
     "cli-table": "^0.3.1",
+    "dateformat": "^1.0.11",
     "juice": "^1.0.0",
     "litmus-api": "^0.3.2",
     "lodash": "^3.6.0",
     "nodemailer": "~0.6.0",
     "special-html": "0.0.1",
     "web-resource-inliner": "^1.1.0",
+    "winston": "^1.0.0",
     "xmlbuilder": "^2.4.5"
   },
   "devDependencies": {
