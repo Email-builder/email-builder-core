@@ -1,10 +1,15 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var chai = require('chai');
-var expect = chai.expect;
+var fs           = require('fs');
+var path         = require('path');
+var chai         = require('chai');
+var sinon        = require('sinon');
+var expect       = chai.expect;
 var EmailBuilder = require('../../lib/emailBuilder.js');
+var Litmus = require('../../lib/litmus');
+var Promise = require('bluebird');
+var mailer      = require('nodemailer');
+
 
 function getSrc(file){
   file = file || '';
@@ -19,6 +24,7 @@ describe("EmailBuilder", function() {
   
   var emailBuilder;
   var src;
+  var obj;
 
   beforeEach(function(){
     emailBuilder = new EmailBuilder({});
@@ -97,6 +103,95 @@ describe("EmailBuilder", function() {
             done();
           }).catch(function(err){ done(err); })
       });
+    });
+
+  });
+
+  // emailbuilder.sendLitmusTest
+  describe("#sendLitmusTest", function() {
+
+    var stub;
+    var options;
+    var html;
+
+    beforeEach(function(){
+
+      html = '<title>Test Title</title>';
+
+      options = emailBuilder.options.litmus = {
+        username: 'user',
+        password: 'pass',
+        url: 'http://testcompany.litmus.com'
+      };
+
+      stub = sinon.stub(Litmus.prototype, 'run', function(html, subject){
+        return Promise.resolve({ 
+          html: html, 
+          subject: subject
+        });
+      });
+
+    });
+
+    afterEach(function(){
+      Litmus.prototype.run.restore();
+    });
+    
+
+    it("should use optional `options.subject` as the subject if defined", function(done) {
+      
+      options.subject = 'Subject Title';
+
+      emailBuilder.sendLitmusTest(html)
+        .then(function(obj){
+          expect(obj.subject).to.equal(options.subject);
+          done();
+        });
+      
+    });
+
+    it("should use <title> as the subject if `options.subject` not defined", function(done) {
+
+      emailBuilder.sendLitmusTest(html)
+        .then(function(obj){
+          expect(obj.subject).to.equal('Test Title');
+          done();
+        });
+      
+    });
+
+
+    it("should use date as the subject if no title or subject is defined", function(done) {
+      
+      html = '<title></title>';
+      var dateReg = /\d{4}-\d{2}-\d{2}/;
+
+      emailBuilder.sendLitmusTest(html)
+        .then(function(obj){
+          expect(dateReg.test(obj.subject)).to.be.true;
+          done();
+        });
+      
+    });
+
+    it("should return html if `options.litmus` defined", function(done) {  
+
+      emailBuilder.sendLitmusTest(html)
+        .then(function(data){
+          expect(data.html).to.equal(html);
+          done();
+        });
+    });
+
+    it("should return html if `options.litmus` undefined", function(done) {  
+      
+      options = null;
+
+      emailBuilder.sendLitmusTest(html)
+        .then(function(data){
+          expect(data.html).to.equal(html);
+          done();
+        });
     });
 
   });
