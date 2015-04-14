@@ -26,7 +26,7 @@ Encodes special characters to their HTML numerical form e.g. © --> &amp;#169;
 Type: `Object`  
 Default: `{}`  
 
-Set in conjunction with `emailBuilder.sendLitmusTest` method to send tests to [Litmus](https://litmus.com/). This takes a few properties: `options.litmus.username`, `options.litmus.password`, `options.litmus.url`, `options.litmus.applications`
+Set when using `emailBuilder.sendLitmusTest` method to send tests to [Litmus](https://litmus.com/). This option takes a few properties: `username`, `password`, `url`, `applications`
 
 Example:
 ```javascript
@@ -54,7 +54,7 @@ litmus : {
 Type: `Object`  
 Default: `{}`  
 
-Set in conjunction with `emailBuilder.sendEmailTest` method to send yourself an email test. Requires two properties `options.emailTest.email` and `options.emailTest.subject` with an optional `options.emailTest.transport` property. View [nodmailer transport methods](https://github.com/andris9/Nodemailer/blob/0.7/README.md#setting-up-a-transport-method) if using `emailTest.transport` option
+Set when using `emailBuilder.sendEmailTest` method to send yourself an email test. Requires two properties `email` and `subject` with an optional `transport` property. View [nodmailer transport methods](https://github.com/andris9/Nodemailer/blob/0.7/README.md#setting-up-a-transport-method) if using `transport` option
 
 Example:
 
@@ -83,14 +83,14 @@ Example:
 Type: `Object`  
 Default: `{}`  
 
-The `emailBuilder.inlineCss` method uses Juice to inline. The following [Juice](https://github.com/Automattic/juice#options) options are supported:  
+We use [Juice](https://github.com/Automattic/juice#options) as the underlying module to inline css and the following Juice options are supported:  
 
 - `extraCss`
 - `applyWidthAttributes`
 
 ## Methods
 
-All methods return a promise, the underlying promise library we use is [Bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md). Methods can be used seperately, or chained together using the `.then` method. If you're not familiar with promises, instead of using a callback, you use a `.then` method to get the results. 
+All methods return a promise, the underlying promise library we use is [Bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md). Methods can be used seperately, or chained together using the `.then` method. If you're not familiar with promises, instead of using a callback, you use chain a `.then` method to get the results. 
 
 #### emailBuilder.inlineCss(file)  
 
@@ -116,7 +116,10 @@ Example:
 ```javascript
 var fs = require('fs');
 var file = fs.readFileSync('path/to/file.html');
-emailBuilder.sendLitmusTest(file);
+emailBuilder.sendLitmusTest(file)
+  .then(function(html){
+    console.log(html);
+  });
 ```
 
 #### emailBuilder.sendEmailTest(html)  
@@ -129,7 +132,10 @@ Example:
 ```javascript
 var fs = require('fs');
 var file = fs.readFileSync('path/to/file.html');
-emailBuilder.sendEmailTest(file);
+emailBuilder.sendEmailTest(file)
+  .then(function(html){
+    console.log(html);
+  });
 ```
 
 ## Complete Example
@@ -150,12 +156,11 @@ emailBuilder.inlineCss(src)
     });
 ```
 
-It should return the compiled email in the callback
 
 ## Testing
 
 `gulp test` - Runs **jshint** and **mocha** tests  
-`gulp inline` - Inlines css from the files in the `test/fixtures/input` directory and creates the `test/fixtures/output` directory. Run if you add/update any tests in the `test/fixtures/input`  
+`gulp inline` - Inlines css from **test/fixtures/input** directory and creates the **test/fixtures/output** directory. Run if you add/update any fixtures in the **test/fixtures/input** directory.  
 
 
 ## Troubleshooting
