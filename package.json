@@ -10,12 +10,23 @@
     "type": "git",
     "url": "https://github.com/Email-builder/email-builder-core.git"
   },
-  "author": "",
-  "license": "ISC",
+  "contributors": [
+    "Jeremy Peter <jeremywpeter@gmail.com> (https://github.com/jeremypeter)",
+    "Steve Miller <steven.jmiller@gmail.com> (http://www.stevenjohnmiller.com.au)"
+  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Email-builder/email-builder-core/issues"
   },
   "homepage": "https://github.com/Email-builder/email-builder-core",
+  "keywords": [
+    "email",
+    "inline",
+    "css",
+    "html",
+    "litmus",
+    "test"
+  ],
   "dependencies": {
     "bluebird": "^2.5.1",
     "chalk": "^0.5.1",
