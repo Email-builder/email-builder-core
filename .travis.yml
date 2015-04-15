@@ -1,6 +1,15 @@
 language: node_js
 node_js:
-  - "0.12"
-  - "0.10"
+- '0.12'
+- '0.10'
 before_install:
-  - npm install -g gulp
+- npm install -g gulp
+deploy:
+  provider: npm
+  email: jeremywpeter@gmail.com
+  api_key:
+    secure: COgPwhgviNssx13e2tDxZbacKEz4JNBjzcfh8QEdpcpMJbiZncKe9ssRPMfIrKluqbIB1gmQ4Efus2HYWlc0fH6jDfsN3BWZ2QD/orqIPqolXSdGXyT6ABb/R3Kebdjvjnt/9dCwyN5EYG9Z5EifHQaL4hf0Ku52FX4FGxtw2z4=
+  on:
+    tags: true
+    repo: Email-builder/email-builder-core
+    branch: master
