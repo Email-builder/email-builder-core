@@ -136,68 +136,108 @@ describe("EmailBuilder", function() {
     });
     
 
-    it("should use optional `options.subject` as the subject if defined", function(done) {
-      
-      options.subject = 'Subject Title';
+    describe("subject", function() {
+      it("should use optional `options.subject` as the subject if defined", function(done) {
+        
+        options.subject = 'Subject Title';
 
-      emailBuilder.sendLitmusTest(html)
-        .then(function(obj){
-          expect(stub.called).to.be.true;
-          expect(stub.calledWith(html, 'Subject Title')).to.be.true;
-          expect(obj.subject).to.equal(options.subject);
-          done();
-        });
-      
+        emailBuilder.sendLitmusTest(html)
+          .then(function(obj){
+            expect(stub.called).to.be.true;
+            expect(stub.calledWith(html, 'Subject Title')).to.be.true;
+            expect(obj.subject).to.equal(options.subject);
+            done();
+          });
+        
+      });
+
+      it("should use <title> as the subject if `options.subject` not defined", function(done) {
+
+        emailBuilder.sendLitmusTest(html)
+          .then(function(obj){
+            expect(stub.called).to.be.true;
+            expect(stub.calledWith(html, 'Test Title')).to.be.true;
+            expect(obj.subject).to.equal('Test Title');
+            done();
+          });
+        
+      });
+
+
+      it("should use date as the subject if no title or subject is defined", function(done) {
+        
+        html = '<title></title>';
+        var dateReg = /\d{4}-\d{2}-\d{2}/;
+
+        emailBuilder.sendLitmusTest(html)
+          .then(function(obj){
+            expect(stub.called).to.be.true;
+            expect(stub.calledWithMatch(sinon.match(html), sinon.match(dateReg))).to.be.true;
+            expect(dateReg.test(obj.subject)).to.be.true;
+            done();
+          });
+        
+      });
     });
 
-    it("should use <title> as the subject if `options.subject` not defined", function(done) {
+    describe("html", function() {
+      it("should return html if `options.litmus` defined", function(done) {  
 
-      emailBuilder.sendLitmusTest(html)
-        .then(function(obj){
-          expect(stub.called).to.be.true;
-          expect(stub.calledWith(html, 'Test Title')).to.be.true;
-          expect(obj.subject).to.equal('Test Title');
-          done();
-        });
-      
+        emailBuilder.sendLitmusTest(html)
+          .then(function(data){
+            expect(stub.called).to.be.true;
+            expect(data.html).to.equal(html);
+            done();
+          });
+      });
+
+      it("should return html if `options.litmus` undefined", function(done) {  
+        
+        delete emailBuilder.options.litmus;
+
+        emailBuilder.sendLitmusTest(html)
+          .then(function(data){
+            expect(stub.called).to.be.false;
+            expect(data).to.equal(html);
+            done();
+          });
+      });
     });
 
+    describe("special characters", function() {
+      it("should encode html if `options.encodeSpecialChars` defined", function(done) {  
+         
+        delete emailBuilder.options.litmus;      
+        emailBuilder.options.encodeSpecialChars = true;
 
-    it("should use date as the subject if no title or subject is defined", function(done) {
-      
-      html = '<title></title>';
-      var dateReg = /\d{4}-\d{2}-\d{2}/;
+        html = '<p>©</p>';
 
-      emailBuilder.sendLitmusTest(html)
-        .then(function(obj){
-          expect(stub.called).to.be.true;
-          expect(stub.calledWithMatch(sinon.match(html), sinon.match(dateReg))).to.be.true;
-          expect(dateReg.test(obj.subject)).to.be.true;
-          done();
-        });
-      
+        emailBuilder.sendLitmusTest(html)
+          .then(function(data){
+            expect(data).to.equal('<p>&#169;</p>');
+            done();
+          });
+      });
     });
 
-    it("should return html if `options.litmus` defined", function(done) {  
+  });
 
-      emailBuilder.sendLitmusTest(html)
-        .then(function(data){
-          expect(stub.called).to.be.true;
-          expect(data.html).to.equal(html);
-          done();
-        });
-    });
+  // emailBuilder.sendEmailTest
+  describe("#sendEmailTest", function() {
+    
+    describe("special characters", function() {
+      it("should encode html if `options.encodeSpecialChars` defined", function(done) {  
+               
+        emailBuilder.options.encodeSpecialChars = true;
 
-    it("should return html if `options.litmus` undefined", function(done) {  
-      
-      delete emailBuilder.options.litmus;
+        var html = '<p>©</p>';
 
-      emailBuilder.sendLitmusTest(html)
-        .then(function(data){
-          expect(stub.called).to.be.false;
-          expect(data).to.equal(html);
-          done();
-        });
+        emailBuilder.sendEmailTest(html)
+          .then(function(data){
+            expect(data).to.equal('<p>&#169;</p>');
+            done();
+          });
+      });
     });
 
   });

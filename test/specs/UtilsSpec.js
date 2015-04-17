@@ -43,4 +43,25 @@ describe("Utils", function() {
     });
   });
 
+  describe("#encode", function() {
+    
+    it('should encode special characters in a string', function(){
+      var html = '<p>©</p>';
+      var encodedHtml = utils.encode(html);
+
+      expect(encodedHtml).to.be.eql('<p>&#169;</p>');
+    });
+
+    it('should encode special characters in a buffer', function(){
+      var html = new Buffer('<p>©</p>');
+      var encodedHtml = utils.encode(html);
+
+      expect(Buffer.isBuffer(encodedHtml)).to.be.true;
+      expect(encodedHtml.toString()).to.be.eql('<p>&#169;</p>');
+    });
+
+  });
+
+
+
 });
