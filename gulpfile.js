@@ -6,7 +6,7 @@ var es = require('event-stream');
 var EmailBuilder = require('./lib/emailBuilder');
 var emailBuilder = new EmailBuilder({ encodeSpecialChars: true });
 
-// Run this task to create the `output` fixtures 
+// Run this task to create the `output` fixtures
 // to test against the `input` fixtures
 gulp.task('inline', function(){
   return gulp.src(['test/fixtures/input/*.html'])
@@ -16,15 +16,15 @@ gulp.task('inline', function(){
         .then(function(html){
           data.contents = new Buffer(html);
           cb(null, data);
-        })
+        });
 
     }))
-    .pipe(gulp.dest('./test/fixtures/output'))
+    .pipe(gulp.dest('./test/fixtures/output'));
 });
 
 
 gulp.task('lint', function(){
-  return gulp.src(['./lib/**/*.js'])
+  return gulp.src(['./lib/**/*.js', 'gulpfile.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
