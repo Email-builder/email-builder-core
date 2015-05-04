@@ -87,7 +87,7 @@ Example:
 **options.juice**  
 Type: `Object`  
 Default: `{}`  
-Supported Properties: `extraCss`, `applyWidthAttributes`  
+Supported Properties: `extraCss`, `applyWidthAttributes`, `applyAttributesTableElements`  
 Supported Method(s): `emailBuilder.inlineCss`  
 
 View [Juice](https://github.com/Automattic/juice#options) options
