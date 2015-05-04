@@ -16,9 +16,9 @@ var emailBuilder = new EmailBuilder({ encodeSpecialChars: true });
 
 # Options
 
-The following options may support all available methods of EmailBuilder.  However there some that are only needed for a particular method.   
+The following options may support all available methods of EmailBuilder.  However there some that are only needed for a particular method.
 
-**options.emailSpecialChars**  
+**options.encodeSpecialChars**  
 Type: `Boolean`  
 Default: `false`  
 Supported Method(s): `All`  
@@ -59,7 +59,7 @@ Default: `{}`
 Properties: `email`, `subject`, `transport`  
 Supported Method(s): `emailBuilder.sendEmailTest`  
 
-View [nodmailer transport methods](https://github.com/andris9/Nodemailer/blob/0.7/README.md#setting-up-a-transport-method) if using `transport` option 
+View [nodmailer transport methods](https://github.com/andris9/Nodemailer/blob/0.7/README.md#setting-up-a-transport-method) if using `transport` option
 
 Example:
 
@@ -90,27 +90,27 @@ Default: `{}`
 Supported Properties: `extraCss`, `applyWidthAttributes`, `applyAttributesTableElements`  
 Supported Method(s): `emailBuilder.inlineCss`  
 
-View [Juice](https://github.com/Automattic/juice#options) options   
+View [Juice](https://github.com/Automattic/juice#options) options
 
 # Methods
 
-All methods return a promise, the underlying promise library we use is [Bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md). Methods can be used seperately, or chained together using the `.then` method. If you're not familiar with promises, instead of using a callback, you chain a `.then` method to get the results. 
+All methods return a promise, the underlying promise library we use is [Bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md). Methods can be used seperately, or chained together using the `.then` method. If you're not familiar with promises, instead of using a callback, you chain a `.then` method to get the results.
 
 ### `emailBuilder.inlineCss(file)`  
 
-Inlines css from embedded or external styles. It'll automatically remove any link or style tags unless one of the data attributes below are used. View [test fixtures](https://github.com/Email-builder/email-builder-core/tree/master/test/fixtures) to see examples.     
+Inlines css from embedded or external styles. It'll automatically remove any link or style tags unless one of the data attributes below are used. View [test fixtures](https://github.com/Email-builder/email-builder-core/tree/master/test/fixtures) to see examples.
 
 **Arguments**  
 
 `file` - String containing path to file
 
 **HTML data attributes**  
-There are two supported data attributes that you can apply to \<style\> or \<link\> tags that have special meaning:   
+There are two supported data attributes that you can apply to \<style\> or \<link\> tags that have special meaning:
 
-`data-embed` 
+`data-embed`
   - use on \<style\> or \<link\> tags if you want styles to be embedded in the \<head\> of the final output. Does not inline css  
 
-`data-embed-ignore` 
+`data-embed-ignore`
   - use on \<link\> tags to preserve them in the \<head\>. Does not inline or embed css  
 
 Example:  
@@ -239,7 +239,7 @@ emailBuilder.inlineCss(src)
 
 # Troubleshooting
 
-If you're having issues with Litmus taking forever to load a test or the title of the test is showing up as "No Subject", it is most likely an issue with the Litmus API. You can check the [Litmus status](http://status.litmus.com) page to find out if their having any issues. If that's not the case, submit an issue and we'll look into further. 
+If you're having issues with Litmus taking forever to load a test or the title of the test is showing up as "No Subject", it is most likely an issue with the Litmus API. You can check the [Litmus status](http://status.litmus.com) page to find out if their having any issues. If that's not the case, submit an issue and we'll look into further.
 
 # Thanks to
 [Juice](https://github.com/Automattic/juice) for compiling.
