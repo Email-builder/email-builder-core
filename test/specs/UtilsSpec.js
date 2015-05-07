@@ -3,6 +3,7 @@ var path = require('path');
 var chai = require('chai');
 var expect = chai.expect;
 var utils = require('../../lib/utils');
+var isStream = require('isstream');
 
 describe("Utils", function() {
   
@@ -60,6 +61,25 @@ describe("Utils", function() {
       expect(encodedHtml.toString()).to.be.eql('<p>&#169;</p>');
     });
 
+  });
+
+  describe("#createStreamFromSrc", function() {
+
+    var html = '<!doctype html><html><body></body></html>';
+    var buffer = new Buffer(html);
+    var path = process.cwd() + '/test/fixtures/output/embedded_styles_ignored.html';
+
+    it('should return a stream if the src is an HTML string', function(){
+      expect(isStream(utils.createStreamFromSrc(html))).to.be.true;
+    });
+
+    it('should return a stream if the src is a Buffer', function(){
+      expect(isStream(utils.createStreamFromSrc(buffer))).to.be.true;
+    });
+
+    it('should return a stream if the src is a file path', function(){
+      expect(isStream(utils.createStreamFromSrc(path))).to.be.true;
+    });
   });
 
 
