@@ -25,6 +25,13 @@ Supported Method(s): `All`
 
 Encodes special characters to their HTML numerical form e.g. © --> &amp;#169;
 
+**options.relativePath**  
+Type: `String`  
+Default: `''`  
+Supported Method(s): `inlineCss`  
+
+This option must be set when passing a Buffer or a String to the `inlineCss` method. That way it has a relative path to any css files. The path should be whatever directory your src file is in. 
+
 **options.litmus**  
 Type: `Object`  
 Default: `{}`  

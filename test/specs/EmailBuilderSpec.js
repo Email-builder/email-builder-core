@@ -30,6 +30,57 @@ describe("EmailBuilder", function() {
 
   // emailBuilder.inlineCss
   describe("#inlineCss", function() {
+
+    it('should inline css from file', function(done){
+
+      var file = getSrc('input/embedded_styles_inlined.html');
+
+      emailBuilder.inlineCss(file)
+        .then(function(html){
+          expect(html.toString()).to.eql(read('output/embedded_styles_inlined.html'));
+          done();
+        }).catch(function(err){ done(err); });
+    });
+
+    it('should inline css from a buffer', function(done){
+
+      var buffer = new Buffer(read('input/embedded_styles_inlined.html'));
+      emailBuilder.options.relativePath = path.dirname(getSrc('input/embedded_styles_inlined.html'));
+
+      emailBuilder.inlineCss(buffer)
+        .then(function(html){
+          expect(html.toString()).to.eql(read('output/embedded_styles_inlined.html'));
+          done();
+        }).catch(function(err){ done(err); });
+    });
+
+    it('should inline css from a string of HTML', function(done){
+
+      var html = read('input/embedded_styles_inlined.html');
+      emailBuilder.options.relativePath = path.dirname(getSrc('input/embedded_styles_inlined.html'));
+
+      emailBuilder.inlineCss(html)
+        .then(function(html){
+          expect(html.toString()).to.eql(read('output/embedded_styles_inlined.html'));
+          done();
+        }).catch(function(err){ done(err); });
+    });
+
+    it('should throw error if `options.relativePath` property not set when passing a string', function(){
+
+      var html = read('input/embedded_styles_inlined.html');
+      emailBuilder.options.relativePath = null;
+
+      expect(function(){ emailBuilder.inlineCss(html) }).to.throw(Error);
+    });
+
+    it('should throw error if `options.relativePath` property not set when passing a buffer', function(){
+
+      var html = new Buffer(read('input/embedded_styles_inlined.html'));
+      emailBuilder.options.relativePath = null;
+
+      expect(function(){ emailBuilder.inlineCss(html) }).to.throw(Error);
+    });
     
     describe("conditional styles", function() {
       
