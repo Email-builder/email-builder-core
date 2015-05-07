@@ -96,13 +96,15 @@ View [Juice](https://github.com/Automattic/juice#options) options
 
 All methods return a promise, the underlying promise library we use is [Bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md). Methods can be used seperately, or chained together using the `.then` method. If you're not familiar with promises, instead of using a callback, you chain a `.then` method to get the results.
 
-### `emailBuilder.inlineCss(file)`  
+### `emailBuilder.inlineCss(file/html/buffer)`  
 
 Inlines css from embedded or external styles. It'll automatically remove any link or style tags unless one of the data attributes below are used. View [test fixtures](https://github.com/Email-builder/email-builder-core/tree/master/test/fixtures) to see examples.
 
 **Arguments**  
 
-`file` - String containing path to file
+`file` - String containing path to file  
+`string` - String of HTML  
+`buffer` - Buffer of HTML  
 
 **HTML data attributes**  
 There are two supported data attributes that you can apply to \<style\> or \<link\> tags that have special meaning:
