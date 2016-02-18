@@ -99,6 +99,14 @@ Supported Method(s): `emailBuilder.inlineCss`
 
 View [Juice](https://github.com/Automattic/juice#options) options
 
+**options.cheerio**  
+Type: `Object`  
+Default: `{}`  
+
+View [Cheerio](https://github.com/cheeriojs/cheerio) options.
+
+
+
 # Methods
 
 All methods return a promise, the underlying promise library we use is [Bluebird](https://github.com/petkaantonov/bluebird/blob/master/API.md). Methods can be used seperately, or chained together using the `.then` method. If you're not familiar with promises, instead of using a callback, you chain a `.then` method to get the results.
