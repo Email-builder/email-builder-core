@@ -73,15 +73,16 @@ Example:
 ```javascript
   emailTest : {
 
-    // Your Email
-    email : 'yourEmail@email.com',
+  // Your Email
+  email : 'yourEmail@email.com',
 
-    // Your email Subject
-    subject : 'Email Subject',
+  // Your email Subject
+  subject : 'Email Subject',
 
-    // Optional
-    transport: {
-      type: 'SMTP',
+  // Optional
+  transport: {
+    type: 'SMTP',
+    options: {
       service: 'gmail',
       auth: {
         user: 'gmail.user@gmail.com',
@@ -89,6 +90,7 @@ Example:
       }
     }
   }
+}
 ```
 
 **options.juice**  
