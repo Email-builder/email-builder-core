@@ -63,14 +63,16 @@ litmus : {
 **options.emailTest**  
 Type: `Object`  
 Default: `{}`  
-Properties: `email`, `subject`, `transport`  
+Properties: `email`, `subject`, `nodemailer`  
 Supported Method(s): `emailBuilder.sendEmailTest`  
 
-View [nodmailer transport methods](https://github.com/andris9/Nodemailer/blob/0.7/README.md#setting-up-a-transport-method) if using `transport` option
+
+The optional `nodemailer` property is an object that has `transport` and `defaults` properties. These get passed to the [nodemailer.createTransport()](https://github.com/nodemailer/nodemailer#setting-up) method. You can use [transport plugins](https://github.com/nodemailer/nodemailer#send-using-a-transport-plugin) or play with the default [SMTP](https://github.com/nodemailer/nodemailer#set-up-smtp) options for the `nodemailer.transport` property
 
 Example:
 
 ```javascript
+
   emailTest : {
 
   // Your Email
@@ -80,15 +82,15 @@ Example:
   subject : 'Email Subject',
 
   // Optional
-  transport: {
-    type: 'SMTP',
-    options: {
+  nodemailer: {
+    transport: {
       service: 'gmail',
       auth: {
-        user: 'gmail.user@gmail.com',
+        user: 'gmailuser',
         pass: 'gmailpass'
       }
-    }
+    }, 
+    defaults: {} 
   }
 }
 ```
