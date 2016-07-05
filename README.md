@@ -67,7 +67,7 @@ Properties: `email`, `subject`, `nodemailer`
 Supported Method(s): `emailBuilder.sendEmailTest`  
 
 
-The optional `nodemailer` property is an object that has `transport` and `defaults` properties. These get passed to the [nodemailer.createTransport()](https://github.com/nodemailer/nodemailer#setting-up) method. You can use [transport plugins](https://github.com/nodemailer/nodemailer#send-using-a-transport-plugin) or play with the default [SMTP](https://github.com/nodemailer/nodemailer#set-up-smtp) options for the `nodemailer.transport` property
+The optional `nodemailer` property is an object that has `transporter` and `defaults` properties. These get passed to the [nodemailer.createTransport()](https://github.com/nodemailer/nodemailer#setting-up) method. You can use [transport plugins](https://github.com/nodemailer/nodemailer#send-using-a-transport-plugin) or play with the default [SMTP](https://github.com/nodemailer/nodemailer#set-up-smtp) options for the `nodemailer.transporter` property
 
 Example:
 
@@ -75,15 +75,18 @@ Example:
 
   emailTest : {
 
-  // Your Email
-  email : 'yourEmail@email.com',
+  // Email to send to
+  to : 'toEmail@email.com',
+
+  // Email sent from
+  from: 'fromEmail@email.com'
 
   // Your email Subject
   subject : 'Email Subject',
 
   // Optional
   nodemailer: {
-    transport: {
+    transporter: {
       service: 'gmail',
       auth: {
         user: 'gmailuser',
