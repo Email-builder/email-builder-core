@@ -63,7 +63,7 @@ litmus : {
 **options.emailTest**  
 Type: `Object`  
 Default: `{}`  
-Properties: `email`, `subject`, `nodemailer`  
+Properties: `to`, `from`, `subject`, `nodemailer`  
 Supported Method(s): `emailBuilder.sendEmailTest`  
 
 
