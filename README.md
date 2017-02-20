@@ -79,7 +79,7 @@ Example:
   to : 'toEmail@email.com',
 
   // Email sent from
-  from: 'fromEmail@email.com'
+  from: 'fromEmail@email.com',
 
   // Your email Subject
   subject : 'Email Subject',
