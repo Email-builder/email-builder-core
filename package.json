@@ -1,6 +1,6 @@
 {
   "name": "email-builder-core",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Email builder core. Provides useful methods to inline css, send tests to Litmus and send email tests",
   "main": "index.js",
   "scripts": {
